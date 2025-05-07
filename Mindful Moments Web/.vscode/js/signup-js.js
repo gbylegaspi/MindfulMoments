@@ -1,62 +1,64 @@
 // Remove auth import since we're not using it yet
 // import auth from './auth.js';
+import { auth } from './firebase-config.js';
+import { GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword } from 'firebase/auth';
 
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM Content Loaded');
+    
     const signupForm = document.getElementById('signupForm');
     const errorMessage = document.getElementById('errorMessage');
     const successMessage = document.getElementById('successMessage');
 
-    // Initialize multi-step form
-    initMultiStepForm();
-    
+    if (!signupForm) {
+        console.error('Signup form not found!');
+        return;
+    }
+
     // Add form validation
     addFormValidation();
-    
-    // Handle form submission
-    signupForm.addEventListener('submit', handleFormSubmission);
-});
 
-async function handleFormSubmission(event) {
-    event.preventDefault();
-    
-    // Get form data
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    const firstName = document.getElementById('first-name').value;
-    const lastName = document.getElementById('last-name').value;
-    const birthDate = document.getElementById('birth-date').value;
-    const location = document.getElementById('location').value;
-    
-    // Get selected goals
-    const goals = Array.from(document.querySelectorAll('input[name="goals"]:checked'))
-        .map(checkbox => checkbox.value);
-    
-    // Get experience level
-    const experience = document.querySelector('input[name="experience"]:checked').value;
-    
-    // Create user data object
-    const userData = {
-        email,
-        password,
-        firstName,
-        lastName,
-        birthDate,
-        location,
-        goals,
-        experience,
-        createdAt: new Date().toISOString()
-    };
-    
-    try {
-        // Temporarily simulate successful signup
-        showSuccess('Account created successfully! Redirecting...');
-        setTimeout(() => {
-            window.location.href = 'dashboard-html.html';
-        }, 1500);
-    } catch (error) {
-        showError('general', 'An error occurred during signup');
+    // Handle form submission
+    signupForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        console.log('Form submitted');
+        
+        const firstName = document.getElementById('first-name').value;
+        const lastName = document.getElementById('last-name').value;
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        
+        try {
+            console.log('Attempting to create account...');
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            console.log('Account created successfully:', userCredential.user);
+            
+            showSuccess('Account created successfully! Redirecting...');
+            setTimeout(() => {
+                window.location.href = 'dashboard-html.html';
+            }, 1500);
+        } catch (error) {
+            console.error('Signup error:', error);
+            showError('general', error.message || 'An error occurred during signup');
+        }
+    });
+
+    // Add Google Sign-Up button event
+    const googleBtn = document.getElementById('google-signup-btn');
+    if (googleBtn) {
+        googleBtn.addEventListener('click', async () => {
+            console.log('Google sign up clicked');
+            const provider = new GoogleAuthProvider();
+            try {
+                await signInWithPopup(auth, provider);
+                window.location.href = 'dashboard-html.html';
+            } catch (error) {
+                console.error('Google sign up error:', error);
+                showError('general', 'Google sign-up failed: ' + error.message);
+            }
+        });
     }
-}
+});
 
 function initMobileMenu() {
     const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
@@ -69,112 +71,31 @@ function initMobileMenu() {
     }
 }
 
-function initMultiStepForm() {
-    const steps = document.querySelectorAll('.form-step');
-    const progressSteps = document.querySelectorAll('.progress-step');
-    const nextButtons = document.querySelectorAll('.btn-next');
-    const backButtons = document.querySelectorAll('.btn-back');
+function showError(field, message) {
+    console.log('Showing error:', field, message);
+    const errorElement = field === 'general' 
+        ? document.getElementById('errorMessage')
+        : document.getElementById(`${field}-error`);
     
-    let currentStep = 0;
-    
-    function updateProgress() {
-        progressSteps.forEach((step, index) => {
-            if (index < currentStep) {
-                step.classList.add('completed');
-            } else if (index === currentStep) {
-                step.classList.add('active');
-            } else {
-                step.classList.remove('active', 'completed');
-            }
-        });
-    }
-    
-    function showStep(stepIndex) {
-        steps.forEach((step, index) => {
-            step.classList.toggle('active', index === stepIndex);
-        });
-        currentStep = stepIndex;
-        updateProgress();
-    }
-    
-    nextButtons.forEach((button, index) => {
-        button.addEventListener('click', () => {
-            if (validateStep(currentStep)) {
-                showStep(currentStep + 1);
-            }
-        });
-    });
-    
-    backButtons.forEach((button, index) => {
-        button.addEventListener('click', () => {
-            showStep(currentStep - 1);
-        });
-    });
-}
-
-function validateStep(step) {
-    const steps = document.querySelectorAll('.form-step');
-    const currentStepElement = steps[step];
-    const inputs = currentStepElement.querySelectorAll('input[required]');
-    let isValid = true;
-    
-    inputs.forEach(input => {
-        if (!input.value) {
-            showError(input.id, 'This field is required');
-            isValid = false;
-        } else {
-            hideError(input.id);
-        }
-        
-        if (input.type === 'email' && !validateEmail(input.value)) {
-            showError(input.id, 'Please enter a valid email address');
-            isValid = false;
-        }
-        
-        if (input.type === 'password' && !validatePassword(input.value)) {
-            showError(input.id, 'Password must be at least 8 characters long and contain uppercase, lowercase, and numbers');
-            isValid = false;
-        }
-    });
-    
-    return isValid;
-}
-
-function showError(inputId, message) {
-    if (inputId === 'general') {
-        const errorMessage = document.getElementById('errorMessage');
-        if (errorMessage) {
-            errorMessage.textContent = message;
-            errorMessage.style.display = 'block';
-        }
-    } else {
-        const errorElement = document.getElementById(`${inputId}-error`);
-        if (errorElement) {
-            errorElement.textContent = message;
-            errorElement.style.display = 'block';
-        }
+    if (errorElement) {
+        errorElement.textContent = message;
+        errorElement.style.display = 'block';
     }
 }
 
-function hideError(inputId) {
-    if (inputId === 'general') {
-        const errorMessage = document.getElementById('errorMessage');
-        if (errorMessage) {
-            errorMessage.style.display = 'none';
-        }
-    } else {
-        const errorElement = document.getElementById(`${inputId}-error`);
-        if (errorElement) {
-            errorElement.style.display = 'none';
-        }
+function hideError(field) {
+    const errorElement = document.getElementById(`${field}-error`);
+    if (errorElement) {
+        errorElement.style.display = 'none';
     }
 }
 
 function showSuccess(message) {
-    const successMessage = document.getElementById('successMessage');
-    if (successMessage) {
-        successMessage.textContent = message;
-        successMessage.style.display = 'block';
+    console.log('Showing success:', message);
+    const successElement = document.getElementById('successMessage');
+    if (successElement) {
+        successElement.textContent = message;
+        successElement.style.display = 'block';
     }
 }
 

@@ -11,7 +11,7 @@
 <body>
     <!-- Header & Navigation -->
     <header>
-        <a href="welcome-page.html" class="logo-container">
+        <a href="#" class="logo-container">
             <div class="logo">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path d="M12,2C6.48,2,2,6.48,2,12c0,5.52,4.48,10,10,10s10-4.48,10-10C22,6.48,17.52,2,12,2z M12,18c-3.31,0-6-2.69-6-6 s2.69-6,6-6s6,2.69,6,6S15.31,18,12,18z"/>
@@ -21,9 +21,6 @@
             <span class="logo-text">Mindful Moments</span>
         </a>
         <nav class="nav-links">
-            <a href="welcome-page.html#features" class="nav-link">Features</a>
-            <a href="welcome-page.html#how-it-works" class="nav-link">How It Works</a>
-            <a href="welcome-page.html#testimonials" class="nav-link">Testimonials</a>
             <a href="signup-page.html" class="nav-link">Sign Up</a>
         </nav>
         <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
@@ -38,7 +35,7 @@
             <div class="form-content">
                 <div id="errorMessage" class="error-message"></div>
                 <div id="successMessage" class="success-message"></div>
-                <form id="loginForm" onsubmit="handleLogin(event)">
+                <form id="loginForm">
                     <div class="form-group">
                         <label for="email">Email</label>
                         <input type="email" id="email" name="email" required>
@@ -60,21 +57,10 @@
                 <div class="social-login">
                     <p>Or log in with</p>
                     <div class="social-buttons">
-                        <a href="#" class="social-btn">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#4285F4">
-                                <path d="M12.24 10.285V14.4h6.806c-.275 1.765-2.056 5.174-6.806 5.174-4.095 0-7.439-3.389-7.439-7.574s3.345-7.574 7.439-7.574c2.33 0 3.891.989 4.785 1.849l3.254-3.138C18.189 1.186 15.479 0 12.24 0c-6.635 0-12 5.365-12 12s5.365 12 12 12c6.926 0 11.52-4.869 11.52-11.726 0-.788-.085-1.39-.189-1.989H12.24z"/>
-                            </svg>
-                        </a>
-                        <a href="#" class="social-btn">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#1877F2">
-                                <path d="M23.9981 11.9991C23.9981 5.37216 18.626 0 11.9991 0C5.37216 0 0 5.37216 0 11.9991C0 17.9882 4.38789 22.9522 10.1242 23.8524V15.4676H7.07758V11.9991H10.1242V9.35553C10.1242 6.34826 11.9156 4.68714 14.6564 4.68714C15.9692 4.68714 17.3424 4.92149 17.3424 4.92149V7.87439H15.8294C14.3388 7.87439 13.8739 8.79933 13.8739 9.74824V11.9991H17.2018L16.6698 15.4676H13.8739V23.8524C19.6103 22.9522 23.9981 17.9882 23.9981 11.9991Z"/>
-                            </svg>
-                        </a>
-                        <a href="#" class="social-btn">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#000000">
-                                <path d="M12 0C5.373 0 0 5.373 0 12c0 5.302 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.729.083-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.836 2.807 1.305 3.495.997.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.605-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.627-5.373-12-12-12"/>
-                            </svg>
-                        </a>
+                        <button id="google-signin-btn" class="social-btn" type="button" style="display: flex; align-items: center; gap: 8px; background: #fff; border: 1px solid #ddd; padding: 10px 24px; border-radius: 30px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); font-size: 16px; font-weight: 500; cursor: pointer; margin: 0 auto;">
+                            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google logo" style="width: 24px; height: 24px; background: #fff; display: inline-block;" />
+                            <span style="display: inline-block; vertical-align: middle;"></span>
+                        </button>
                     </div>
                 </div>
 
@@ -91,6 +77,6 @@
         </div>
     </footer>
 
-    <script src="js/login-js.js"></script>
+    <script type="module" src="js/login-js.js"></script>
 </body>
 </html>

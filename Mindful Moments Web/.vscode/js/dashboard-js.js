@@ -117,7 +117,7 @@ function addEventListeners() {
 async function handleLogout() {
     try {
         await auth.logout();
-        window.location.href = 'login-html.html';
+        window.location.href = 'index.html';
     } catch (error) {
         console.error('Logout failed:', error);
         // Show error message to user
@@ -185,7 +185,7 @@ async function loadUserProfile() {
     try {
         const userId = DataManager.getCurrentUserId();
         if (!userId) {
-            window.location.href = 'login-page.html';
+            window.location.href = 'index.html';
             return;
         }
 
