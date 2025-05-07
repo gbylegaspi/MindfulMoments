@@ -7,76 +7,107 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/main-css.css">
     <link rel="stylesheet" href="css/login-css.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body>
-    <!-- Header & Navigation -->
-    <header>
-        <a href="#" class="logo-container">
-            <div class="logo">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path d="M12,2C6.48,2,2,6.48,2,12c0,5.52,4.48,10,10,10s10-4.48,10-10C22,6.48,17.52,2,12,2z M12,18c-3.31,0-6-2.69-6-6 s2.69-6,6-6s6,2.69,6,6S15.31,18,12,18z"/>
-                    <path d="M12,8c-2.21,0-4,1.79-4,4c0,2.21,1.79,4,4,4s4-1.79,4-4C16,9.79,14.21,8,12,8z M12,14c-1.1,0-2-0.9-2-2 c0-1.1,0.9-2,2-2s2,0.9,2,2C14,13.1,13.1,14,12,14z"/>
-                </svg>
+<body class="auth-body">
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1>Mindful Moments</h1>
+                <p id="auth-title">Login to your account</p>
             </div>
-            <span class="logo-text">Mindful Moments</span>
-        </a>
-        <nav class="nav-links">
-            <a href="signup-page.html" class="nav-link">Sign Up</a>
-        </nav>
-        <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
-    </header>
-
-    <main>
-        <div class="form-container">
-            <div class="form-header">
-                <h1>Welcome Back</h1>
-                <p>Log in to continue your mindfulness journey</p>
-            </div>
-            <div class="form-content">
-                <div id="errorMessage" class="error-message"></div>
-                <div id="successMessage" class="success-message"></div>
-                <form id="loginForm">
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" required>
+            
+            <!-- Login Form -->
+            <form id="login-form" class="auth-form">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required placeholder="Your email address">
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="password-field">
+                        <input type="password" id="password" required placeholder="Your password">
+                        <i class="fas fa-eye toggle-password"></i>
                     </div>
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" id="password" name="password" required>
+                    <a href="#" class="forgot-password">Forgot password?</a>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-full">Login</button>
+                
+                <div class="auth-divider">
+                    <span>or</span>
+                </div>
+                
+                <button type="button" class="btn btn-google">
+                    <i class="fab fa-google"></i> Continue with Google
+                </button>
+            </form>
+            
+            <!-- Sign Up Form -->
+            <form id="signup-form" class="auth-form hidden">
+                <div class="form-group">
+                    <label for="signup-name">Full Name</label>
+                    <input type="text" id="signup-name" required placeholder="Your full name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="signup-email">Email</label>
+                    <input type="email" id="signup-email" required placeholder="Your email address">
+                </div>
+                
+                <div class="form-group">
+                    <label for="signup-password">Password</label>
+                    <div class="password-field">
+                        <input type="password" id="signup-password" required placeholder="Create a password">
+                        <i class="fas fa-eye toggle-password"></i>
                     </div>
-                    <div class="remember-me">
-                        <input type="checkbox" id="remember" name="remember">
-                        <label for="remember">Remember me</label>
-                    </div>
-                    <div class="forgot-password">
-                        <a href="#forgot-password">Forgot password?</a>
-                    </div>
-                    <button type="submit" class="btn btn-primary" id="loginButton">Log In</button>
-                </form>
-
-                <div class="social-login">
-                    <p>Or log in with</p>
-                    <div class="social-buttons">
-                        <button id="google-signin-btn" class="social-btn" type="button" style="display: flex; align-items: center; gap: 8px; background: #fff; border: 1px solid #ddd; padding: 10px 24px; border-radius: 30px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); font-size: 16px; font-weight: 500; cursor: pointer; margin: 0 auto;">
-                            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google logo" style="width: 24px; height: 24px; background: #fff; display: inline-block;" />
-                            <span style="display: inline-block; vertical-align: middle;"></span>
-                        </button>
+                    <div class="password-strength">
+                        <div class="strength-bar"></div>
+                        <span class="strength-text">Password strength</span>
                     </div>
                 </div>
-
-                <div class="signup-link">
-                    <p>Don't have an account? <a href="signup-page.html">Sign up</a></p>
+                
+                <div class="form-group">
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" id="terms" required>
+                        <label for="terms">I agree to the Terms of Service and Privacy Policy</label>
+                    </div>
                 </div>
+                
+                <button type="submit" class="btn btn-primary btn-full">Create Account</button>
+                
+                <div class="auth-divider">
+                    <span>or</span>
+                </div>
+                
+                <button type="button" class="btn btn-google">
+                    <i class="fab fa-google"></i> Sign up with Google
+                </button>
+            </form>
+            
+            <div class="auth-footer">
+                <p id="login-message">Don't have an account? <a href="#" id="goto-signup">Sign up</a></p>
+                <p id="signup-message" class="hidden">Already have an account? <a href="#" id="goto-login">Login</a></p>
             </div>
         </div>
-    </main>
-
-    <footer>
-        <div class="copyright">
-            &copy; 2025 Mindful Moments. All rights reserved.
-        </div>
-    </footer>
-
-    <script type="module" src="js/login-js.js"></script>
+    </div>
+    
+    <!-- Loading Spinner -->
+    <div class="loading-overlay hidden">
+        <div class="spinner"></div>
+    </div>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-analytics.js"></script>
+    
+    <!-- Firebase Config -->
+    <script src="js/firebase-config.js"></script>
+    
+    <!-- Auth Script -->
+    <script src="js/auth.js"></script>
 </body>
 </html>

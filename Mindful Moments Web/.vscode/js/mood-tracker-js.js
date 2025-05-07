@@ -111,7 +111,7 @@ function loadMoodEntries() {
     }
     
     // This will be replaced with actual API call to get mood entries
-    moodHistory.innerHTML = '<p>Mood history will be displayed here</p>';
+        moodHistory.innerHTML = '<p>Mood history will be displayed here</p>';
 }
 
 function addEventListeners() {
@@ -130,11 +130,11 @@ function showError(message) {
         return;
     }
     
-    errorMessage.textContent = message;
-    errorMessage.style.display = 'block';
-    setTimeout(() => {
-        errorMessage.style.display = 'none';
-    }, 3000);
+        errorMessage.textContent = message;
+        errorMessage.style.display = 'block';
+        setTimeout(() => {
+            errorMessage.style.display = 'none';
+        }, 3000);
 }
 
 function showSuccess(message) {
@@ -144,9 +144,9 @@ function showSuccess(message) {
         return;
     }
     
-    successMessage.textContent = message;
-    successMessage.style.display = 'block';
-    setTimeout(() => {
-        successMessage.style.display = 'none';
-    }, 3000);
+        successMessage.textContent = message;
+        successMessage.style.display = 'block';
+        setTimeout(() => {
+            successMessage.style.display = 'none';
+        }, 3000);
 }
