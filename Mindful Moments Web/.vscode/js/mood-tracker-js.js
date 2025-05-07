@@ -25,12 +25,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function initMoodTracker() {
     const moodForm = document.getElementById('moodForm');
-    if (moodForm) {
-        moodForm.addEventListener('submit', handleMoodSubmission);
+    if (!moodForm) {
+        console.error('Mood form not found');
+        return;
     }
+    
+    moodForm.addEventListener('submit', handleMoodSubmission);
 
     // Initialize mood selection
     const moodButtons = document.querySelectorAll('.mood-button');
+    if (moodButtons.length === 0) {
+        console.error('No mood buttons found');
+        return;
+    }
+    
     moodButtons.forEach(button => {
         button.addEventListener('click', () => {
             // Remove active class from all buttons
@@ -51,7 +59,13 @@ async function handleMoodSubmission(event) {
     }
 
     const moodValue = selectedMood.dataset.mood;
-    const notes = document.getElementById('moodNotes').value;
+    const moodNotes = document.getElementById('moodNotes');
+    if (!moodNotes) {
+        console.error('Mood notes input not found');
+        return;
+    }
+    
+    const notes = moodNotes.value;
     const timestamp = new Date().toISOString();
 
     const moodEntry = {
@@ -77,9 +91,12 @@ async function handleMoodSubmission(event) {
 
 function clearMoodForm() {
     const moodForm = document.getElementById('moodForm');
-    if (moodForm) {
-        moodForm.reset();
+    if (!moodForm) {
+        console.error('Mood form not found');
+        return;
     }
+    
+    moodForm.reset();
     
     // Remove active class from mood buttons
     const moodButtons = document.querySelectorAll('.mood-button');
@@ -87,16 +104,17 @@ function clearMoodForm() {
 }
 
 function loadMoodEntries() {
-    // This will be replaced with actual API call to get mood entries
-    const moodHistory = document.querySelector('.mood-history');
-    if (moodHistory) {
-        // Placeholder for mood history
-        moodHistory.innerHTML = '<p>Mood history will be displayed here</p>';
+    const moodHistory = document.getElementById('moodHistory');
+    if (!moodHistory) {
+        console.error('Mood history container not found');
+        return;
     }
+    
+    // This will be replaced with actual API call to get mood entries
+    moodHistory.innerHTML = '<p>Mood history will be displayed here</p>';
 }
 
 function addEventListeners() {
-    // Add any additional event listeners here
     const moodFilter = document.getElementById('moodFilter');
     if (moodFilter) {
         moodFilter.addEventListener('change', () => {
@@ -106,23 +124,29 @@ function addEventListeners() {
 }
 
 function showError(message) {
-    const errorMessage = document.querySelector('.error-message');
-    if (errorMessage) {
-        errorMessage.textContent = message;
-        errorMessage.style.display = 'block';
-        setTimeout(() => {
-            errorMessage.style.display = 'none';
-        }, 3000);
+    const errorMessage = document.getElementById('errorMessage');
+    if (!errorMessage) {
+        console.error('Error message element not found');
+        return;
     }
+    
+    errorMessage.textContent = message;
+    errorMessage.style.display = 'block';
+    setTimeout(() => {
+        errorMessage.style.display = 'none';
+    }, 3000);
 }
 
 function showSuccess(message) {
-    const successMessage = document.querySelector('.success-message');
-    if (successMessage) {
-        successMessage.textContent = message;
-        successMessage.style.display = 'block';
-        setTimeout(() => {
-            successMessage.style.display = 'none';
-        }, 3000);
+    const successMessage = document.getElementById('successMessage');
+    if (!successMessage) {
+        console.error('Success message element not found');
+        return;
     }
+    
+    successMessage.textContent = message;
+    successMessage.style.display = 'block';
+    setTimeout(() => {
+        successMessage.style.display = 'none';
+    }, 3000);
 }

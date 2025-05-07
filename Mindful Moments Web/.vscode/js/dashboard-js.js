@@ -6,28 +6,39 @@ document.addEventListener('DOMContentLoaded', function() {
     addEventListeners();
 
     // Set default welcome message
-    const welcomeMessage = document.querySelector('.welcome-message');
-    if (welcomeMessage) {
-        welcomeMessage.textContent = 'Welcome to Mindful Moments!';
+    const greeting = document.getElementById('greeting');
+    if (greeting) {
+        greeting.textContent = 'Welcome to Mindful Moments!';
+    }
+
+    // Set current date
+    const currentDate = document.getElementById('currentDate');
+    if (currentDate) {
+        currentDate.textContent = new Date().toLocaleDateString('en-US', { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+        });
     }
 });
 
 function updateUserInfo(user) {
     // Update welcome message
-    const welcomeMessage = document.querySelector('.welcome-message');
-    if (welcomeMessage) {
-        welcomeMessage.textContent = `Welcome back, ${user.firstName}!`;
+    const greeting = document.getElementById('greeting');
+    if (greeting) {
+        greeting.textContent = `Welcome back, ${user.firstName}!`;
     }
 
     // Update user profile section
-    const userName = document.querySelector('.user-name');
+    const userName = document.getElementById('userName');
     if (userName) {
         userName.textContent = `${user.firstName} ${user.lastName}`;
     }
 
-    const userEmail = document.querySelector('.user-email');
-    if (userEmail) {
-        userEmail.textContent = user.email;
+    const userAvatar = document.getElementById('userAvatar');
+    if (userAvatar) {
+        userAvatar.textContent = `${user.firstName[0]}${user.lastName[0]}`;
     }
 
     // Update user stats
@@ -35,24 +46,28 @@ function updateUserInfo(user) {
 }
 
 function updateUserStats(user) {
-    // This will be implemented when we have actual user stats
-    const statsContainer = document.querySelector('.user-stats');
-    if (statsContainer) {
-        // Placeholder stats - will be replaced with real data
-        statsContainer.innerHTML = `
-            <div class="stat-item">
-                <span class="stat-value">0</span>
-                <span class="stat-label">Sessions Completed</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-value">0</span>
-                <span class="stat-label">Total Minutes</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-value">0</span>
-                <span class="stat-label">Current Streak</span>
-            </div>
-        `;
+    // Update total meditation time
+    const totalMeditationTime = document.getElementById('totalMeditationTime');
+    if (totalMeditationTime) {
+        totalMeditationTime.textContent = '0h 0m'; // Placeholder - will be replaced with real data
+    }
+
+    // Update current streak
+    const currentStreak = document.getElementById('currentStreak');
+    if (currentStreak) {
+        currentStreak.textContent = '0 days'; // Placeholder - will be replaced with real data
+    }
+
+    // Update journal entries count
+    const journalEntries = document.getElementById('journalEntries');
+    if (journalEntries) {
+        journalEntries.textContent = '0'; // Placeholder - will be replaced with real data
+    }
+
+    // Update average mood
+    const averageMood = document.getElementById('averageMood');
+    if (averageMood) {
+        averageMood.textContent = '0.0'; // Placeholder - will be replaced with real data
     }
 }
 
@@ -92,9 +107,23 @@ function initUpcomingSessions() {
 
 function addEventListeners() {
     // Logout button
-    const logoutButton = document.querySelector('.logout-btn');
-    if (logoutButton) {
-        logoutButton.addEventListener('click', handleLogout);
+    const logoutLink = document.querySelector('.logout-link');
+    if (logoutLink) {
+        logoutLink.addEventListener('click', handleLogout);
+    }
+
+    // Mobile menu trigger
+    const mobileMenuTrigger = document.querySelector('.mobile-menu-trigger');
+    if (mobileMenuTrigger) {
+        mobileMenuTrigger.addEventListener('click', toggleMobileMenu);
+    }
+
+    // User profile dropdown
+    const userProfile = document.querySelector('.user-profile');
+    if (userProfile) {
+        userProfile.addEventListener('click', () => {
+            userProfile.classList.toggle('active');
+        });
     }
 
     // Profile settings button
