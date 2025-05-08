@@ -94,8 +94,8 @@
                         <span class="badge">3</span>
                     </div>
                     <div class="user-profile">
-                        <div class="avatar" id="userAvatar">JS</div>
-                        <span class="user-name" id="userName">Loading...</span>
+                        <div class="avatar" id="userAvatar"></div>
+                        <h3 id="signup-name"></h3>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                             <path d="M7 10l5 5 5-5z"/>
                         </svg>
@@ -392,6 +392,7 @@
     <script src="js/dashboard-js.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+     
             // Load dashboard data
             loadDashboardData();
             
@@ -588,6 +589,8 @@
                 sidebar.classList.toggle('active');
             }
         }
+
     </script>
+    <script src="auth.js"></script>
 </body>
 </html>
