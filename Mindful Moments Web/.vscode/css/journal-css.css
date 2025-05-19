@@ -627,3 +627,37 @@
 .dark-mode .mood-tag-pill {
     background-color: rgba(255, 255, 255, 0.1);
 }
+
+
+.journal-text-area::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 2rem;
+    width: 1px;
+    height: 100%;
+    background-color: #c0c0c0;
+  }
+/* Notebook style for the writing area only */
+.journal-text-area {
+    font-family: 'Patrick Hand', cursive;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    background: repeating-linear-gradient(
+      to bottom,
+      #fff,
+      #fff 28px,
+      #dcdcdc 28px,
+      #dcdcdc 29px
+    );
+    background-size: 100% 30px;
+    padding: 2rem;
+    border-radius: 8px;
+    min-height: 300px;
+    position: relative;
+  }
+
+
+  .placeholder {
+    color: #aaa;
+  }

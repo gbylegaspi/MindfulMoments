@@ -716,3 +716,62 @@ function initViewAllButton() {
         });
     }
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+    const journalArea = document.querySelector(".journal-text-area");
+    const promptItems = document.querySelectorAll(".prompt-item");
+    const placeholderText = "Write your thoughts here...";
+
+    // Set placeholder initially if empty
+    if (journalArea.textContent.trim() === "") {
+        journalArea.textContent = placeholderText;
+        journalArea.classList.add("placeholder");
+    }
+
+    journalArea.addEventListener("focus", function () {
+        if (journalArea.classList.contains("placeholder")) {
+            journalArea.textContent = "";
+            journalArea.classList.remove("placeholder");
+        }
+    });
+
+    journalArea.addEventListener("blur", function () {
+        if (journalArea.textContent.trim() === "") {
+            journalArea.textContent = placeholderText;
+            journalArea.classList.add("placeholder");
+        }
+    });
+
+    promptItems.forEach(item => {
+        item.addEventListener("click", function () {
+            const promptText = this.getAttribute("data-prompt");
+
+            // Clear placeholder if it's showing
+            if (journalArea.classList.contains("placeholder")) {
+                journalArea.textContent = "";
+                journalArea.classList.remove("placeholder");
+            }
+
+            // Add prompt on new lines if there's already content
+            if (journalArea.textContent.trim() !== "") {
+                journalArea.textContent += "\n\n" + promptText;
+            } else {
+                journalArea.textContent = promptText;
+            }
+
+            // Move caret to the end
+            placeCaretAtEnd(journalArea);
+        });
+    });
+
+    // Function to move the caret to the end
+    function placeCaretAtEnd(el) {
+        el.focus();
+        const range = document.createRange();
+        range.selectNodeContents(el);
+        range.collapse(false); // false = end of content
+        const sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+    }
+});
