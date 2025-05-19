@@ -124,6 +124,7 @@
                 </section>
 
                 <!-- Quick Stats Section -->
+                <div class="slide-in-up">
                 <section class="stats-section">
                     <div class="stat-card">
                         <div class="stat-icon" style="background-color: var(--color-yellow);">
@@ -160,20 +161,9 @@
                             <div class="stat-value" id="journalEntries">0</div>
                             <div class="stat-label">Journal Entries</div>
                         </div>
-                    </div>
-                    
-                    <div class="stat-card">
-                        <div class="stat-icon" style="background-color: var(--color-pink);">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
-                            </svg>
-                        </div>
-                        <div class="stat-content">
-                            <div class="stat-value" id="averageMood">0.0</div>
-                            <div class="stat-label">Average Mood Score</div>
-                        </div>
-                    </div>
+                    </div>  
                 </section>
+                </div>
 
                 <!-- Mood Tracking Summary Section -->
                 <section class="mood-section">
@@ -227,29 +217,9 @@
                     </div>
                 </section>
 
-                <!-- Recent Mood Entries Section -->
-                <section class="mood-entries-section">
-                    <div class="section-header">
-                        <h2>Recent Mood Entries</h2>
-                        <a href="mood-tracker-html.html" class="view-all">View All</a>
-                    </div>
-                    <div class="mood-entries-container" id="recent-mood-entries">
-                        <!-- Mood entries will be dynamically inserted here -->
-                    </div>
-                </section>
-
-                <!-- Recent Journal Entries Section -->
-                <section class="journal-entries-section">
-                    <div class="section-header">
-                        <h2>Recent Journal Entries</h2>
-                        <a href="journal-html.html" class="view-all">View All</a>
-                    </div>
-                    <div class="journal-entries-container" id="recent-journal-entries">
-                        <!-- Journal entries will be dynamically inserted here -->
-                    </div>
-                </section>
 
                 <!-- Recommended Sessions Section -->
+                <div class="slide-in-left">
                 <section class="sessions-section">
                     <div class="section-header">
                         <h2>Recommended Sessions</h2>
@@ -299,19 +269,10 @@
                         </div>
                     </div>
                 </section>
-
-                <!-- Recent Meditation Sessions Section -->
-                <section class="sessions-section">
-                    <div class="section-header">
-                        <h2>Recent Meditation Sessions</h2>
-                        <a href="sessions-html.html" class="view-all">View All</a>
-                    </div>
-                    <div class="sessions-grid" id="recent-sessions">
-                        <!-- Meditation sessions will be dynamically inserted here -->
-                    </div>
-                </section>
-
+                </div>
+                  
                 <!-- Journal Prompt Section -->
+                <div class="slide-in-right">
                 <section class="journal-section">
                     <div class="section-header">
                         <h2>Today's Journal Prompt</h2>
@@ -328,51 +289,10 @@
                         </div>
                     </div>
                 </section>
+                </div>
+                
 
-                <!-- Community Highlights Section -->
-                <section class="community-section">
-                    <div class="section-header">
-                        <h2>Community Highlights</h2>
-                        <a href="#" class="view-all">View All</a>
-                    </div>
-                    <div class="community-posts">
-                        <div class="community-post">
-                            <div class="post-avatar">LT</div>
-                            <div class="post-content">
-                                <div class="post-header">
-                                    <div class="post-author">Lily T.</div>
-                                    <div class="post-time">2 hours ago</div>
-                                </div>
-                                <p class="post-text">I've been struggling with work anxiety, but the "Calm in Chaos" session helped me so much. Anyone else try this one?</p>
-                                <div class="post-stats">
-                                    <div class="post-likes">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                            <path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-1.91l-.01-.01L23 10z"/>
-                                        </svg>
-                                        <span>24</span>
-                                    </div>
-                                    <div class="post-comments">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                            <path d="M21.99 4c0-1.1-.89-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4-.01-18z"/>
-                                        </svg>
-                                        <span>15</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Community Interactions Section -->
-                <section class="community-section">
-                    <div class="section-header">
-                        <h2>Recent Community Interactions</h2>
-                        <a href="community-html.html" class="view-all">View All</a>
-                    </div>
-                    <div class="community-posts" id="community-interactions">
-                        <!-- Community interactions will be dynamically inserted here -->
-                    </div>
-                </section>
+                
             </div>
 
             <footer class="main-footer">

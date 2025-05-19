@@ -599,3 +599,23 @@ function getTimeAgo(date) {
         day: 'numeric'
     });
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('slide-in-visible');
+        }
+      });
+    }, {
+      threshold: 0.1
+    });
+
+    // Observe all elements with slide-in classes
+    document.querySelectorAll('.slide-in-left, .slide-in-right').forEach(el => {
+      observer.observe(el);
+    });
+  });
+
+ 
+  
