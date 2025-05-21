@@ -7,8 +7,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/main-css.css">
     <link rel="stylesheet" href="css/mood-tracker-css.css">
+    
+    
 </head>
+
 <body>
+    
     <div class="app-container">
         <!-- Sidebar Navigation -->
         <aside class="sidebar">
@@ -183,14 +187,8 @@
                             </div>
                         </div>
                         
-                        <div class="mood-notes">
-                            <h3>Add Notes</h3>
-                            <textarea placeholder="What influenced your mood today? (optional)" id="mood-notes-input"></textarea>
-                        </div>
                         
-                        <div class="mood-submit">
-                            <button id="save-mood" class="btn btn-primary">Save Mood Entry</button>
-                        </div>
+                       
                     </div>
                 </section>
 
@@ -289,52 +287,7 @@
                             </div>
                         </div>
                     </div>
-                </section>
-
-                <!-- Mood Insights Section -->
-                <section class="mood-insights-section">
-                    <div class="card">
-                        <h2>Mood Insights</h2>
-                        <div class="insights-content">
-                            <div class="insight-card">
-                                <div class="insight-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
-                                        <path d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
-                                    </svg>
-                                </div>
-                                <div class="insight-content">
-                                    <h3>You're feeling calmer</h3>
-                                    <p>Your calm levels have increased by 20% compared to last week.</p>
-                                </div>
-                            </div>
-                            
-                            <div class="insight-card">
-                                <div class="insight-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                        <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"/>
-                                    </svg>
-                                </div>
-                                <div class="insight-content">
-                                    <h3>Morning meditation helps</h3>
-                                    <p>Days you meditate in the morning show 35% higher happiness levels.</p>
-                                </div>
-                            </div>
-                            
-                            <div class="insight-card">
-                                <div class="insight-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                        <path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7zm2.85 11.1l-.85.6V16h-4v-2.3l-.85-.6A4.997 4.997 0 0 1 7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.63-.8 3.16-2.15 4.1z"/>
-                                    </svg>
-                                </div>
-                                <div class="insight-content">
-                                    <h3>Pattern detected</h3>
-                                    <p>Your anxiety tends to peak on Wednesdays - consider scheduling a midweek relaxation session.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+                </section> 
 
                 <!-- Mood Entries History Section -->
                 <section class="mood-history-section">
@@ -398,55 +351,7 @@
                         </div>
                     </div>
                 </section>
-
-                <!-- Recommendations Section -->
-                <section class="mood-recommendations-section">
-                    <div class="card">
-                        <h2>Recommended For You</h2>
-                        <p class="section-desc">Based on your recent mood patterns, these resources might help:</p>
-                        
-                        <div class="recommendations-grid">
-                            <div class="recommendation-card">
-                                <div class="recommendation-icon" style="background-color: var(--color-yellow);">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5-6h10v2H7zm0-4h10v2H7z"/>
-                                    </svg>
-                                </div>
-                                <div class="recommendation-content">
-                                    <h3>Midweek Calm</h3>
-                                    <p>A 15-minute guided meditation designed to reduce midweek anxiety.</p>
-                                    <a href="#" class="btn btn-secondary">Start Session</a>
-                                </div>
-                            </div>
-                            
-                            <div class="recommendation-card">
-                                <div class="recommendation-icon" style="background-color: var(--color-pink);">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                        <path d="M21 12.22C21 6.73 16.74 3 12 3c-4.69 0-9 3.65-9 9.28-.6.23-.06.46-.06.7.05 4.3 4.11 9.02 7.22 9.02 2.78 0 3.41-1.55 3.84-1.55.43 0 1.06 1.55 3.84 1.55 3.11 0 7.17-4.73 7.16-9.02 0-.25 0-.47-.06-.7 0-.01.06-.01.06-.03zm-18 1.33v-.1c0-5.05 3.87-8.45 9-8.45 5.19 0 9 3.5 9 8.55 0 4.54-3.55 8.06-6.16 8.06-1.5 0-1.73-.54-3.84-.54s-2.34.54-3.84.54c-2.61 0-6.16-3.52-6.16-8.06zM8 11.54c.92 0 1.67-.75 1.67-1.67 0-.92-.75-1.67-1.67-1.67-.92 0-1.67.75-1.67 1.67 0 .92.75 1.67 1.67 1.67zm8 0c.92 0 1.67-.75 1.67-1.67 0-.92-.75-1.67-1.67-1.67-.92 0-1.67.75-1.67 1.67 0 .92.75 1.67 1.67 1.67z"/>
-                                    </svg>
-                                </div>
-                                <div class="recommendation-content">
-                                    <h3>Journal Prompt</h3>
-                                    <p>Write about a time when you successfully managed anxiety and what techniques worked.</p>
-                                    <a href="#" class="btn btn-secondary">Open Journal</a>
-                                </div>
-                            </div>
-                            
-                            <div class="recommendation-card">
-                                <div class="recommendation-icon" style="background-color: var(--color-orange);">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                        <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
-                                    </svg>
-                                </div>
-                                <div class="recommendation-content">
-                                    <h3>Community Topic</h3>
-                                    <p>Join the discussion on "Managing Work Stress" in our community forum.</p>
-                                    <a href="#" class="btn btn-secondary">View Discussion</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+            
             </div>
 
             <footer class="main-footer">
@@ -465,6 +370,34 @@
 
     <script src="js/dashboard-js.js"></script>
     <script src="js/mood-tracker-js.js"></script>
-    
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+    const sliders = document.querySelectorAll(".mood-slider");
+
+    sliders.forEach(slider => {
+        const moodName = slider.id.split("-")[0]; // e.g., 'happy' from 'happy-slider'
+        const percentSpan = document.getElementById(`${moodName}-percent`);
+        const trackDiv = document.getElementById(`${moodName}-track`);
+        const color = slider.dataset.color;
+
+        // Initial update
+        updateSlider(slider, percentSpan, trackDiv, color);
+
+        // On slider input
+        slider.addEventListener("input", function () {
+            updateSlider(slider, percentSpan, trackDiv, color);
+        });
+    });
+
+    function updateSlider(slider, percentSpan, trackDiv, color) {
+        const value = slider.value;
+        percentSpan.textContent = `${value}%`;
+
+        // Set background track fill (visual progress bar effect)
+        trackDiv.style.background = `linear-gradient(to right, ${color} ${value}%, #eee ${value}%)`;
+    }
+});
+</script>
+
     </body>
 </html>

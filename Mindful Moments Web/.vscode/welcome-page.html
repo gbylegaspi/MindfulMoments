@@ -1,25 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome | Mindful Moments</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/main-css.css">
-    <link rel="stylesheet" href="css/welcome-css.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MoodTrack - Login</title>
+  <link rel="stylesheet0" href="css/main.css">
+  <link rel="stylesheet" href="css/welcome-css.css" />
 </head>
 <body>
-    <main class="welcome-container">
-        <div class="welcome-content">
-            <h1>Welcome to Mindful Moments</h1>
-            <p>Your journey to mindfulness starts here</p>
-            <div class="welcome-buttons">
-                <a href="index.html" class="btn btn-primary">Log In</a>
-                <a href="signup-page.html" class="btn btn-secondary">Sign Up</a>
-            </div>
-        </div>
-    </main>
+  <div class="auth-page">
+    <div class="auth-card">
+      <h2>Welcome to Mindful Moments 😊</h2>
+      <p class="auth-message">Your journey to mindfulness starts here. Track how you feel. Reflect. Grow.</p>
+      <div class="auth-buttons">
+        <button class="auth-btn login-btn" onclick="login()">Log In</button>
+        <button class="auth-btn signup-btn" onclick="signup()">Sign Up</button>
+      </div>
+    </div>
+  </div>
 
-    <script type="module" src="js/welcome-js.js"></script>
+  <script>
+    function login() {
+      // Replace with real login logic later
+      alert("Logging in...");
+      window.location.href = "tracker.html";
+    }
+
+    function signup() {
+      alert("Redirecting to Sign Up page...");
+      // Redirect if you make a real signup page
+      // window.location.href = "signup.html";
+    }
+  </script>
 </body>
-</html> 
+</html>
