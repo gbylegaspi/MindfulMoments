@@ -187,12 +187,21 @@ function initializeDashboard() {
 
 // Initialize mobile menu
 function initMobileMenu() {
-    const menuButton = document.querySelector('.mobile-menu-button');
-    const mobileMenu = document.querySelector('.mobile-menu');
+    const mobileMenuTrigger = document.querySelector('.mobile-menu-trigger');
+    const sidebar = document.querySelector('.sidebar');
     
-    if (menuButton && mobileMenu) {
-        menuButton.addEventListener('click', function() {
-            mobileMenu.classList.toggle('active');
+    if (mobileMenuTrigger && sidebar) {
+        mobileMenuTrigger.addEventListener('click', function() {
+            sidebar.classList.toggle('active');
+        });
+        
+        // Close sidebar when clicking outside
+        document.addEventListener('click', function(event) {
+            if (sidebar.classList.contains('active') && 
+                !sidebar.contains(event.target) && 
+                !mobileMenuTrigger.contains(event.target)) {
+                sidebar.classList.remove('active');
+            }
         });
     }
 }

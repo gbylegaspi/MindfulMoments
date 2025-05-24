@@ -10,6 +10,7 @@
 </head>
 <body>
     <div class="app-container">
+        
         <!-- Sidebar Navigation -->
         <aside class="sidebar">
             <div class="logo-container">
@@ -60,6 +61,8 @@
                     <span>Emergency Support</span>
                 </a>
             </nav>
+
+            
             
             <div class="sidebar-footer">
                 <a href="settings-html.html" class="settings-link">
@@ -80,7 +83,7 @@
         <!-- Main Content Area -->
         <main class="main-content">
             <header class="main-header">
-                <div class="mobile-menu-trigger" onclick="toggleMobileMenu()">
+                <div class="mobile-menu-trigger">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                         <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
                     </svg>
@@ -502,13 +505,7 @@
             window.location.href = 'welcome-page.html';
         }
 
-        // Mobile menu toggle
-        function toggleMobileMenu() {
-            const sidebar = document.querySelector('.sidebar');
-            if (sidebar) {
-                sidebar.classList.toggle('active');
-            }
-        }
+         
 
     </script>
     <script src="auth.js"></script>
