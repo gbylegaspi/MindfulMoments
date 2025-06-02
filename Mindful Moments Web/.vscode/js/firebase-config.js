@@ -1,4 +1,4 @@
-// Your web app's Firebase configuration
+
 const firebaseConfig = {
   apiKey: "AIzaSyD7VnFgdjrKpdFIsoFl3VCCWEe80bJJ6OE",
   authDomain: "mindful-moments-web-2a41e.firebaseapp.com",
@@ -9,7 +9,6 @@ const firebaseConfig = {
   measurementId: "G-XQNB9FFVGX"
 };
 
-// Initialize Firebase
 const app = firebase.initializeApp(firebaseConfig);
 const analytics = firebase.analytics(app);
 const auth = firebase.auth(app);

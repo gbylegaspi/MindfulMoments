@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Subscription - Mindful Moments</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .premium-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .pricing-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .pricing-header h1 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .pricing-header p {
+            font-size: 1.1rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .pricing-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .pricing-card.popular {
+            border: 2px solid #4CAF50;
+            position: relative;
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -12px;
+            right: 20px;
+            background: #4CAF50;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .pricing-card h2 {
+            font-size: 1.8rem;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .price {
+            font-size: 2.5rem;
+            color: #4CAF50;
+            margin-bottom: 1.5rem;
+        }
+
+        .price span {
+            font-size: 1rem;
+            color: #666;
+        }
+
+        .features-list {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 2rem;
+        }
+
+        .features-list li {
+            padding: 0.5rem 0;
+            color: #666;
+            display: flex;
+            align-items: center;
+        }
+
+        .features-list li::before {
+            content: "✓";
+            color: #4CAF50;
+            margin-right: 0.5rem;
+            font-weight: bold;
+        }
+
+        .subscribe-btn {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .subscribe-btn:hover {
+            background: #45a049;
+        }
+
+        .guarantee {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 2rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .guarantee h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .guarantee p {
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="premium-container">
+        <div class="pricing-header">
+            <h1>Upgrade to Premium</h1>
+            <p>Unlock all features and take your mindfulness journey to the next level</p>
+        </div>
+
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <h2>Monthly</h2>
+                <div class="price">$9.99<span>/month</span></div>
+                <ul class="features-list">
+                    <li>Unlimited meditation sessions</li>
+                    <li>Advanced mood tracking</li>
+                    <li>Premium guided meditations</li>
+                    <li>Community access</li>
+                    <li>Basic analytics</li>
+                </ul>
+                <button class="subscribe-btn">Subscribe Now</button>
+            </div>
+
+            <div class="pricing-card popular">
+                <div class="popular-badge">Most Popular</div>
+                <h2>Yearly</h2>
+                <div class="price">$89.99<span>/year</span></div>
+                <ul class="features-list">
+                    <li>All Monthly features</li>
+                    <li>Save 25% compared to monthly</li>
+                    <li>Priority support</li>
+                    <li>Advanced analytics</li>
+                    <li>Exclusive content</li>
+                    <li>Offline access</li>
+                </ul>
+                <button class="subscribe-btn">Subscribe Now</button>
+            </div>
+
+            <div class="pricing-card">
+                <h2>Lifetime</h2>
+                <div class="price">$299.99<span>/one-time</span></div>
+                <ul class="features-list">
+                    <li>All Yearly features</li>
+                    <li>Lifetime access</li>
+                    <li>VIP support</li>
+                    <li>Early access to new features</li>
+                    <li>Personalized coaching</li>
+                    <li>Family sharing (up to 5 members)</li>
+                </ul>
+                <button class="subscribe-btn">Subscribe Now</button>
+            </div>
+        </div>
+
+        <div class="guarantee">
+            <h3>30-Day Money-Back Guarantee</h3>
+            <p>Try our premium features risk-free. If you're not completely satisfied, we'll refund your payment - no questions asked.</p>
+        </div>
+    </div>
+
+    <script>
+        // Add click event listeners to subscription buttons
+        document.querySelectorAll('.subscribe-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                // TODO: Implement payment processing
+                alert('Payment processing will be implemented soon!');
+            });
+        });
+    </script>
+</body>
+</html> 

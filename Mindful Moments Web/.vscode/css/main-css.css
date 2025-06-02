@@ -1,4 +1,3 @@
-
 :root {
     --color-yellow: #eeaf61;
     --color-orange: #fb9062;
@@ -126,6 +125,18 @@ input, textarea, select {
     text-overflow: ellipsis;
     transition: var(--transition);
     max-width: 160px;
+}
+
+.welcome-text {
+    color: var(--color-sidebar-text);
+    font-size: 0.9rem;
+    padding: 0 20px;
+    margin-bottom: 20px;
+}
+
+.welcome-text #user-first-name {
+    font-weight: 500;
+    color: var(--color-sidebar-active);
 }
 
 .sidebar-nav {
