@@ -179,151 +179,28 @@
                             </div>
                         </div>
                         
+                        <!-- Add notes section -->
+                        <div class="mood-notes">
+                            <h3>How are you feeling today?</h3>
+                            <textarea id="moodNotes" placeholder="Write about your day, what's on your mind, or any other thoughts..."></textarea>
+                        </div>
                         
-                       
+                        <!-- Add save button -->
+                        <div class="mood-submit">
+                            <button id="saveMood" class="btn btn-primary">Save Mood Entry</button>
+                        </div>
                     </div>
                 </section>
 
-                <!-- Mood Visualization Section -->
-                <section class="mood-visualization-section">
+                <!-- Recent Mood Entries Section -->
+                <section class="recent-mood-entries">
                     <div class="card">
-                        <div class="card-header">
-                            <h2>Your Mood History</h2>
-                            <div class="time-filter">
-                                <button class="filter-btn active" data-period="week">Week</button>
-                                <button class="filter-btn" data-period="month">Month</button>
-                                <button class="filter-btn" data-period="year">Year</button>
-                            </div>
-                        </div>
-                        
-                        <div class="mood-chart">
-                            <div class="chart-container" id="mood-chart-container">
-                                <!-- Chart will be inserted here via JavaScript -->
-                                <div class="mood-chart-placeholder">
-                                    <div class="mood-chart-day" data-day="Mon">
-                                        <div class="chart-bars">
-                                        </div>
-                                        <div class="chart-day-label">Mon</div>
-                                    </div>
-                                    <div class="mood-chart-day" data-day="Tue">
-                                        <div class="chart-bars">
-                                        </div>
-                                        <div class="chart-day-label">Tue</div>
-                                    </div>
-                                    <div class="mood-chart-day" data-day="Wed">
-                                        <div class="chart-bars">
-                                        </div>
-                                        <div class="chart-day-label">Wed</div>
-                                    </div>
-                                    <div class="mood-chart-day" data-day="Thu">
-                                        <div class="chart-bars">
-                                        </div>
-                                        <div class="chart-day-label">Thu</div>
-                                    </div>
-                                    <div class="mood-chart-day" data-day="Fri">
-                                        <div class="chart-bars">
-                                        </div>
-                                        <div class="chart-day-label">Fri</div>
-                                    </div>
-                                    <div class="mood-chart-day empty" data-day="Sat">
-                                        <div class="chart-bars">
-                                            <!-- Empty, no mood logged yet -->
-                                        </div>
-                                        <div class="chart-day-label">Sat</div>
-                                    </div>
-                                    <div class="mood-chart-day empty" data-day="Sun">
-                                        <div class="chart-bars">
-                                            <!-- Empty, no mood logged yet -->
-                                        </div>
-                                        <div class="chart-day-label">Sun</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="chart-legend">
-                                <div class="legend-item">
-                                    <span class="legend-color" style="background-color: #8DCA35;"></span>
-                                    <span class="legend-label">Happy</span>
-                                </div>
-                                <div class="legend-item">
-                                    <span class="legend-color" style="background-color: #5B9BD5;"></span>
-                                    <span class="legend-label">Sad</span>
-                                </div>
-                                <div class="legend-item">
-                                    <span class="legend-color" style="background-color: #FFD056;"></span>
-                                    <span class="legend-label">Anxious</span>
-                                </div>
-                                <div class="legend-item">
-                                    <span class="legend-color" style="background-color: #9F7BD5;"></span>
-                                    <span class="legend-label">Calm</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section> 
-
-                <!-- Mood Entries History Section -->
-                <section class="mood-history-section">
-                    <div class="card">
-                        <div class="card-header">
-                            <h2>Recent Entries</h2>
-                            <button class="btn btn-secondary view-all-btn">View All</button>
-                        </div>
-                        
-                        <div class="mood-entries">
-                            <div class="mood-entry">
-                                <div class="entry-date">
-                                    <div class="day">24</div>
-                                    <div class="month">APR</div>
-                                </div>
-                                <div class="entry-content">
-                                    <div class="entry-moods">
-                                        <div class="entry-mood-dot" style="background-color: #8DCA35;" title="Happy: 60%"></div>
-                                        <div class="entry-mood-dot" style="background-color: #5B9BD5;" title="Sad: 20%"></div>
-                                        <div class="entry-mood-dot" style="background-color: #FFD056;" title="Anxious: 30%"></div>
-                                        <div class="entry-mood-dot" style="background-color: #9F7BD5;" title="Calm: 70%"></div>
-                                    </div>
-                                    <div class="entry-note">Had a productive morning meeting and completed a challenging project. Evening meditation helped me relax.</div>
-                                    <div class="entry-time">10:30 AM</div>
-                                </div>
-                            </div>
-                            
-                            <div class="mood-entry">
-                                <div class="entry-date">
-                                    <div class="day">23</div>
-                                    <div class="month">APR</div>
-                                </div>
-                                <div class="entry-content">
-                                    <div class="entry-moods">
-                                        <div class="entry-mood-dot" style="background-color: #8DCA35;" title="Happy: 40%"></div>
-                                        <div class="entry-mood-dot" style="background-color: #5B9BD5;" title="Sad: 45%"></div>
-                                        <div class="entry-mood-dot" style="background-color: #FFD056;" title="Anxious: 60%"></div>
-                                        <div class="entry-mood-dot" style="background-color: #9F7BD5;" title="Calm: 35%"></div>
-                                    </div>
-                                    <div class="entry-note">Feeling stressed about upcoming deadline. Need to make time for relaxation exercises.</div>
-                                    <div class="entry-time">8:15 PM</div>
-                                </div>
-                            </div>
-                            
-                            <div class="mood-entry">
-                                <div class="entry-date">
-                                    <div class="day">22</div>
-                                    <div class="month">APR</div>
-                                </div>
-                                <div class="entry-content">
-                                    <div class="entry-moods">
-                                        <div class="entry-mood-dot" style="background-color: #8DCA35;" title="Happy: 75%"></div>
-                                        <div class="entry-mood-dot" style="background-color: #5B9BD5;" title="Sad: 15%"></div>
-                                        <div class="entry-mood-dot" style="background-color: #FFD056;" title="Anxious: 20%"></div>
-                                        <div class="entry-mood-dot" style="background-color: #9F7BD5;" title="Calm: 65%"></div>
-                                    </div>
-                                    <div class="entry-note">Great day! Morning yoga and a walk in the park really helped boost my mood.</div>
-                                    <div class="entry-time">5:45 PM</div>
-                                </div>
-                            </div>
+                        <h2>Recent Mood Entries</h2>
+                        <div id="recent-mood-entries-list" class="mood-entries-list">
+                            <!-- Recent entries will be populated here -->
                         </div>
                     </div>
                 </section>
-            
             </div>
 
             <footer class="main-footer">
@@ -341,35 +218,7 @@
     </div>
 
     <script src="js/dashboard-js.js"></script>
-    <script src="js/mood-tracker-js.js"></script>
-    <script>
-document.addEventListener("DOMContentLoaded", function () {
-    const sliders = document.querySelectorAll(".mood-slider");
-
-    sliders.forEach(slider => {
-        const moodName = slider.id.split("-")[0]; // e.g., 'happy' from 'happy-slider'
-        const percentSpan = document.getElementById(`${moodName}-percent`);
-        const trackDiv = document.getElementById(`${moodName}-track`);
-        const color = slider.dataset.color;
-
-        // Initial update
-        updateSlider(slider, percentSpan, trackDiv, color);
-
-        // On slider input
-        slider.addEventListener("input", function () {
-            updateSlider(slider, percentSpan, trackDiv, color);
-        });
-    });
-
-    function updateSlider(slider, percentSpan, trackDiv, color) {
-        const value = slider.value;
-        percentSpan.textContent = `${value}%`;
-
-        // Set background track fill (visual progress bar effect)
-        trackDiv.style.background = `linear-gradient(to right, ${color} ${value}%, #eee ${value}%)`;
-    }
-});
-</script>
+    <script src="js/mood-tracker-js.js" type="module"></script>
 
     </body>
 </html>

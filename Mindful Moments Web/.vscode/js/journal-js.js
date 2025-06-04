@@ -4,50 +4,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Mobile menu functionality from dashboard.js
     initMobileMenu();
-
-    const journalForm = document.getElementById('journal-form');
-    const titleInput = document.getElementById('journal-title');
-    const contentInput = document.getElementById('journal-content');
-    const moodTagsInput = document.getElementById('mood-tags');
-    const saveButton = document.getElementById('save-entry');
-
-    // Add event listener for form submission
-    journalForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const title = titleInput.value.trim();
-        const content = contentInput.value.trim();
-        const moodTags = moodTagsInput.value.split(',').map(tag => tag.trim()).filter(tag => tag);
-        
-        if (!content) {
-            alert('Please write something in your journal entry');
-            return;
-        }
-
-        // Save journal entry using DataManager
-        DataManager.saveJournalEntry({
-            title: title,
-            content: content,
-            moodTags: moodTags,
-            excerpt: content.substring(0, 100) + '...'
-        });
-
-        // Clear form
-        titleInput.value = '';
-        contentInput.value = '';
-        moodTagsInput.value = '';
-        
-        // Show success message
-        alert('Journal entry saved successfully!');
-        
-        // Redirect to dashboard
-        window.location.href = 'dashboard-html.html';
-    });
 });
 
 function initJournal() {
     // Initialize with empty journal entries
-    const journalEntries = [];
+    let journalEntries = [];
     
     // DOM Elements
     const journalEntriesList = document.getElementById('journal-entries-list');
@@ -55,7 +16,7 @@ function initJournal() {
     const journalEditorPanel = document.querySelector('.journal-editor-panel');
     const journalContainer = document.querySelector('.journal-container');
     const entryTitleInput = document.getElementById('entry-title');
-    const entryContentTextarea = document.getElementById('entry-content');
+    const journalTextArea = document.querySelector('.journal-text-area');
     const entryMoodTags = document.getElementById('entry-mood-tags');
     const editorDateDisplay = document.querySelector('.editor-date');
     const newEntryBtn = document.getElementById('new-entry-btn');
@@ -70,7 +31,7 @@ function initJournal() {
     const editorTools = document.querySelectorAll('.editor-tool[data-format]');
     
     // Current Entry State
-    let currentEntry = journalEntries[0];
+    let currentEntry = null;
     let isNewEntry = false;
     
     // Check if we're on mobile
@@ -100,11 +61,22 @@ function initJournal() {
     
     // Populate journal entries list
     function renderJournalList(entries = journalEntries) {
+        if (!journalEntriesList) return;
+        
         journalEntriesList.innerHTML = '';
+        
+        if (entries.length === 0) {
+            journalEntriesList.innerHTML = `
+                <div class="no-entries-message">
+                    <p>No journal entries yet. Start writing your first entry!</p>
+                </div>
+            `;
+            return;
+        }
         
         entries.forEach(entry => {
             const entryItem = document.createElement('div');
-            entryItem.className = `journal-entry-item ${entry.id === currentEntry.id ? 'active' : ''}`;
+            entryItem.className = `journal-entry-item ${entry.id === currentEntry?.id ? 'active' : ''}`;
             entryItem.dataset.id = entry.id;
             
             entryItem.innerHTML = `
@@ -140,7 +112,7 @@ function initJournal() {
         
         // Update editor content
         entryTitleInput.value = entry.title;
-        entryContentTextarea.value = entry.content;
+        journalTextArea.innerText = entry.content;
         editorDateDisplay.textContent = entry.date;
         
         // Update mood tags
@@ -182,7 +154,7 @@ function initJournal() {
         
         // Clear editor content
         entryTitleInput.value = '';
-        entryContentTextarea.value = '';
+        journalTextArea.innerText = '';
         editorDateDisplay.textContent = formattedDate;
         
         // Clear mood tags
@@ -207,22 +179,31 @@ function initJournal() {
     // Save the current entry
     function saveEntry() {
         const title = entryTitleInput.value.trim() || 'Untitled Entry';
-        const content = entryContentTextarea.value;
+        const content = journalTextArea.innerText;
         const excerpt = content.substring(0, 50) + '...';
         
+        if (!content) {
+            showNotification('Please write something in your journal entry');
+            return;
+        }
+
         if (isNewEntry) {
             // Create a new entry object
             const newEntry = {
-                id: currentEntry.id,
+                id: 'entry-' + Date.now(),
                 title: title,
                 content: content,
-                date: currentEntry.date,
-                formattedDate: currentEntry.formattedDate,
+                date: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
+                formattedDate: {
+                    day: new Date().getDate().toString(),
+                    month: new Date().toLocaleString('en-US', { month: 'short' }).toUpperCase()
+                },
                 moodTags: getCurrentMoodTags(),
-                excerpt: excerpt
+                excerpt: excerpt,
+                createdAt: new Date().toISOString()
             };
             
-            // Add to entries array (in a real app, this would be saved to a database)
+            // Add to entries array
             journalEntries.unshift(newEntry);
             
             // Update current entry
@@ -239,55 +220,71 @@ function initJournal() {
                 journalEntries[entryIndex].content = content;
                 journalEntries[entryIndex].moodTags = getCurrentMoodTags();
                 journalEntries[entryIndex].excerpt = excerpt;
+                journalEntries[entryIndex].updatedAt = new Date().toISOString();
                 
                 // Update current entry
                 currentEntry = journalEntries[entryIndex];
             }
         }
         
+        // Save to localStorage
+        localStorage.setItem('journalEntries', JSON.stringify(journalEntries));
+        
         // Re-render the journal list
         renderJournalList();
         
-        // Show feedback (in a real app, this would have proper error handling)
+        // Show success message
         showNotification('Journal entry saved successfully!');
     }
     
-    // Delete the current entry
-    function deleteEntry() {
-        if (isNewEntry) {
-            // Just clear the form for new entries
-            createNewEntry();
-            return;
+    // Load entries from localStorage on init
+    function loadSavedEntries() {
+        const savedEntries = localStorage.getItem('journalEntries');
+        if (savedEntries) {
+            journalEntries = JSON.parse(savedEntries);
+            renderJournalList();
         }
-        
-        // Confirm deletion
-        if (confirm('Are you sure you want to delete this journal entry? This action cannot be undone.')) {
-            // Find and remove the entry
-            const entryIndex = journalEntries.findIndex(e => e.id === currentEntry.id);
-            if (entryIndex !== -1) {
-                journalEntries.splice(entryIndex, 1);
+    }
+
+    // Initialize saved entries
+    loadSavedEntries();
+
+    // Add event listeners
+    if (saveEntryBtn) saveEntryBtn.addEventListener('click', saveEntry);
+    if (newEntryBtn) newEntryBtn.addEventListener('click', createNewEntry);
+    if (mobileNewEntryBtn) mobileNewEntryBtn.addEventListener('click', createNewEntry);
+    if (backToListBtn) backToListBtn.addEventListener('click', () => {
+        journalContainer.classList.add('show-list');
+    });
+    
+    // Add delete button event listener
+    if (deleteEntryBtn) {
+        deleteEntryBtn.addEventListener('click', function() {
+            if (!currentEntry || isNewEntry) return;
+            
+            if (confirm('Are you sure you want to delete this entry? This action cannot be undone.')) {
+                // Remove entry from array
+                journalEntries = journalEntries.filter(entry => entry.id !== currentEntry.id);
                 
-                // Load another entry or create a new one if no entries left
-                if (journalEntries.length > 0) {
-                    loadEntry(journalEntries[0].id);
-                } else {
-                    createNewEntry();
-                }
+                // Save to localStorage
+                localStorage.setItem('journalEntries', JSON.stringify(journalEntries));
+                
+                // Show success message
+                showNotification('Journal entry deleted successfully!');
+                
+                // Create new entry
+                createNewEntry();
                 
                 // Re-render the journal list
                 renderJournalList();
-                
-                // Show feedback
-                showNotification('Journal entry deleted successfully!');
-                
-                // Update view mode for mobile
-                updateViewMode();
             }
-        }
+        });
     }
     
     // Render mood tags in the editor
     function renderMoodTags(tags) {
+        if (!entryMoodTags) return;
+        
         entryMoodTags.innerHTML = '';
         
         tags.forEach(tag => {
@@ -326,47 +323,21 @@ function initJournal() {
     
     // Get current mood tags from the UI
     function getCurrentMoodTags() {
-        const tagElements = entryMoodTags.querySelectorAll('.mood-tag-pill');
-        return Array.from(tagElements).map(el => el.dataset.mood);
+        const moodTagElements = document.querySelectorAll('#entry-mood-tags .mood-tag-pill');
+        return Array.from(moodTagElements).map(tag => tag.dataset.mood);
     }
     
-    // Show a notification message
+    // Show notification
     function showNotification(message) {
-        // Create notification element
         const notification = document.createElement('div');
         notification.className = 'notification';
         notification.textContent = message;
-        notification.style.position = 'fixed';
-        notification.style.bottom = '20px';
-        notification.style.right = '20px';
-        notification.style.backgroundColor = 'var(--color-purple)';
-        notification.style.color = 'white';
-        notification.style.padding = '12px 20px';
-        notification.style.borderRadius = 'var(--border-radius-md)';
-        notification.style.boxShadow = 'var(--shadow-md)';
-        notification.style.zIndex = '1000';
-        notification.style.opacity = '0';
-        notification.style.transform = 'translateY(20px)';
-        notification.style.transition = 'opacity 0.3s, transform 0.3s';
         
-        // Add to body
         document.body.appendChild(notification);
         
-        // Trigger animation
+        // Remove notification after 3 seconds
         setTimeout(() => {
-            notification.style.opacity = '1';
-            notification.style.transform = 'translateY(0)';
-        }, 10);
-        
-        // Remove after 3 seconds
-        setTimeout(() => {
-            notification.style.opacity = '0';
-            notification.style.transform = 'translateY(20px)';
-            
-            // Remove from DOM after animation
-            setTimeout(() => {
-                document.body.removeChild(notification);
-            }, 300);
+            notification.remove();
         }, 3000);
     }
     
@@ -404,7 +375,7 @@ function initJournal() {
     
     // Text editor formatting functions
     function formatText(format) {
-        const textarea = entryContentTextarea;
+        const textarea = journalTextArea;
         const start = textarea.selectionStart;
         const end = textarea.selectionEnd;
         const selectedText = textarea.value.substring(start, end);
@@ -438,49 +409,32 @@ function initJournal() {
     
     // Add prompt text to the editor
     function addPromptToEditor(promptText) {
-        const currentContent = entryContentTextarea.value;
+        const currentContent = journalTextArea.innerText;
         const promptWithNewlines = currentContent ? `\n\n${promptText}\n` : `${promptText}\n`;
         
-        entryContentTextarea.value += promptWithNewlines;
-        entryContentTextarea.focus();
+        journalTextArea.innerText += promptWithNewlines;
+        journalTextArea.focus();
         
         // Set cursor position at the end of the text
-        entryContentTextarea.setSelectionRange(
-            entryContentTextarea.value.length,
-            entryContentTextarea.value.length
+        journalTextArea.setSelectionRange(
+            journalTextArea.innerText.length,
+            journalTextArea.innerText.length
         );
     }
     
-    // Event Listeners
-    
-    // New Entry button
-    newEntryBtn.addEventListener('click', createNewEntry);
-    
-    // Mobile New Entry button
-    if (mobileNewEntryBtn) {
-        mobileNewEntryBtn.addEventListener('click', createNewEntry);
+    // Add event listeners for mood tags
+    if (moodTagBtn) {
+        moodTagBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            if (moodTagDropdown) moodTagDropdown.classList.toggle('show');
+        });
     }
-    
-    // Save Entry button
-    saveEntryBtn.addEventListener('click', saveEntry);
-    
-    // Delete Entry button
-    deleteEntryBtn.addEventListener('click', deleteEntry);
-    
-    // Back to List button
-    backToListBtn.addEventListener('click', () => {
-        journalContainer.classList.add('show-list');
-    });
-    
-    // Mood tag button
-    moodTagBtn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        moodTagDropdown.classList.toggle('show');
-    });
     
     // Close dropdown when clicking outside
     document.addEventListener('click', function(e) {
-        if (!moodTagBtn.contains(e.target) && !moodTagDropdown.contains(e.target)) {
+        if (moodTagBtn && moodTagDropdown && 
+            !moodTagBtn.contains(e.target) && 
+            !moodTagDropdown.contains(e.target)) {
             moodTagDropdown.classList.remove('show');
         }
     });
@@ -489,14 +443,16 @@ function initJournal() {
     document.querySelectorAll('.mood-tag').forEach(tag => {
         tag.addEventListener('click', () => {
             addMoodTag(tag.dataset.mood);
-            moodTagDropdown.classList.remove('show');
+            if (moodTagDropdown) moodTagDropdown.classList.remove('show');
         });
     });
     
     // Journal search
-    journalSearchInput.addEventListener('input', function() {
-        searchEntries(this.value);
-    });
+    if (journalSearchInput) {
+        journalSearchInput.addEventListener('input', function() {
+            searchEntries(this.value);
+        });
+    }
     
     // Journal prompts
     journalPromptItems.forEach(prompt => {
@@ -514,7 +470,13 @@ function initJournal() {
     
     // Initialize the journal view
     renderJournalList();
-    loadEntry(journalEntries[0].id);
+    
+    // Load first entry if available
+    if (journalEntries.length > 0) {
+        loadEntry(journalEntries[0].id);
+    } else {
+        createNewEntry();
+    }
 }
 
 // Mobile menu functionality from dashboard.js

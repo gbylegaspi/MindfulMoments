@@ -1,153 +1,220 @@
-import auth from './auth.js';
-
 document.addEventListener('DOMContentLoaded', function() {
-    // Check if user is authenticated
-    if (!auth.isUserAuthenticated()) {
-        window.location.href = 'login-html.html';
-        return;
-    }
-
-    const user = auth.getCurrentUser();
-    if (!user) {
-        window.location.href = 'login-html.html';
-        return;
-    }
-
+    console.log('Mood tracker initialized');
+    
     // Initialize mood tracker
     initMoodTracker();
-    
-    // Load existing mood entries
-    loadMoodEntries();
-    
-    // Add event listeners
-    addEventListeners();
 });
 
 function initMoodTracker() {
-    const moodForm = document.getElementById('moodForm');
-    if (!moodForm) {
-        console.error('Mood form not found');
-        return;
-    }
+    console.log('Initializing mood tracker');
     
-    moodForm.addEventListener('submit', handleMoodSubmission);
+    // Initialize mood sliders
+    const sliders = document.querySelectorAll('.mood-slider');
+    console.log('Found sliders:', sliders.length);
+    
+    sliders.forEach(slider => {
+        const moodName = slider.id.split('-')[0];
+        const percentSpan = document.getElementById(`${moodName}-percent`);
+        const trackDiv = document.getElementById(`${moodName}-track`);
+        const color = slider.dataset.color;
 
-    // Initialize mood selection
-    const moodButtons = document.querySelectorAll('.mood-button');
-    if (moodButtons.length === 0) {
-        console.error('No mood buttons found');
-        return;
-    }
-    
-    moodButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            // Remove active class from all buttons
-            moodButtons.forEach(btn => btn.classList.remove('active'));
-            // Add active class to clicked button
-            button.classList.add('active');
+        // Initial update
+        updateSlider(slider, percentSpan, trackDiv, color);
+
+        // On slider input
+        slider.addEventListener('input', function() {
+            updateSlider(slider, percentSpan, trackDiv, color);
         });
     });
+
+    // Add save button event listener
+    const saveButton = document.getElementById('saveMood');
+    console.log('Save button found:', !!saveButton);
+    
+    if (saveButton) {
+        saveButton.addEventListener('click', function(e) {
+            console.log('Save button clicked');
+            handleMoodSubmission(e);
+        });
+    }
+
+    // Load and display recent entries
+    loadRecentEntries();
 }
 
-async function handleMoodSubmission(event) {
+function updateSlider(slider, percentSpan, trackDiv, color) {
+    const value = slider.value;
+    percentSpan.textContent = `${value}%`;
+    trackDiv.style.background = `linear-gradient(to right, ${color} ${value}%, #eee ${value}%)`;
+}
+
+function handleMoodSubmission(event) {
+    console.log('Handling mood submission');
     event.preventDefault();
 
-    const selectedMood = document.querySelector('.mood-button.active');
-    if (!selectedMood) {
-        showError('Please select a mood');
-        return;
-    }
+    // Get all mood values
+    const moodValues = {};
+    const sliders = document.querySelectorAll('.mood-slider');
+    sliders.forEach(slider => {
+        const moodName = slider.id.replace('-slider', '');
+        moodValues[moodName] = parseInt(slider.value);
+    });
+    console.log('Mood values:', moodValues);
 
-    const moodValue = selectedMood.dataset.mood;
-    const moodNotes = document.getElementById('moodNotes');
-    if (!moodNotes) {
-        console.error('Mood notes input not found');
-        return;
-    }
+    // Get notes
+    const notes = document.getElementById('moodNotes')?.value || '';
+    console.log('Notes:', notes);
     
-    const notes = moodNotes.value;
     const timestamp = new Date().toISOString();
 
     const moodEntry = {
-        mood: moodValue,
+        id: 'mood-' + Date.now(),
+        moods: moodValues,
         notes,
         timestamp,
-        userId: auth.getCurrentUser().id
+        date: new Date().toLocaleDateString('en-US', { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+        })
     };
+    console.log('Created mood entry:', moodEntry);
 
     try {
-        // This will be replaced with actual API call
-        // await saveMoodEntry(moodEntry);
+        // Save to localStorage
+        let savedEntries = [];
+        try {
+            const storedEntries = localStorage.getItem('moodEntries');
+            if (storedEntries) {
+                savedEntries = JSON.parse(storedEntries);
+            }
+        } catch (e) {
+            console.warn('No existing entries found, starting fresh');
+        }
         
-        // For now, we'll just show success and clear the form
-        showSuccess('Mood recorded successfully!');
-        clearMoodForm();
-        loadMoodEntries(); // Reload the mood entries
+        console.log('Previous entries:', savedEntries.length);
+        savedEntries.unshift(moodEntry);
+        
+        try {
+            localStorage.setItem('moodEntries', JSON.stringify(savedEntries));
+            console.log('Saved to localStorage');
+            
+            // Show success message
+            showNotification('Mood recorded successfully!');
+            
+            // Clear form
+            clearMoodForm();
+            
+            // Update recent entries display
+            loadRecentEntries();
+        } catch (e) {
+            console.error('Error saving to localStorage:', e);
+            showNotification('Error saving mood entry. Please try again.');
+        }
     } catch (error) {
-        console.error('Error saving mood entry:', error);
-        showError('Failed to save mood entry. Please try again.');
+        console.error('Error processing mood entry:', error);
+        showNotification('Error saving mood entry. Please try again.');
     }
 }
 
 function clearMoodForm() {
-    const moodForm = document.getElementById('moodForm');
-    if (!moodForm) {
-        console.error('Mood form not found');
-        return;
-    }
+    console.log('Clearing mood form');
     
-    moodForm.reset();
-    
-    // Remove active class from mood buttons
-    const moodButtons = document.querySelectorAll('.mood-button');
-    moodButtons.forEach(button => button.classList.remove('active'));
+    // Reset all sliders
+    const sliders = document.querySelectorAll('.mood-slider');
+    sliders.forEach(slider => {
+        const moodName = slider.id.split('-')[0];
+        const percentSpan = document.getElementById(`${moodName}-percent`);
+        const trackDiv = document.getElementById(`${moodName}-track`);
+        const color = slider.dataset.color;
+        
+        slider.value = 0;
+        updateSlider(slider, percentSpan, trackDiv, color);
+    });
+
+    // Clear notes
+    const notes = document.getElementById('moodNotes');
+    if (notes) notes.value = '';
 }
 
-function loadMoodEntries() {
-    const moodHistory = document.getElementById('moodHistory');
-    if (!moodHistory) {
-        console.error('Mood history container not found');
-        return;
-    }
+function showNotification(message) {
+    console.log('Showing notification:', message);
     
-    // This will be replaced with actual API call to get mood entries
-        moodHistory.innerHTML = '<p>Mood history will be displayed here</p>';
+    const notification = document.createElement('div');
+    notification.className = 'notification';
+    notification.textContent = message;
+    
+    document.body.appendChild(notification);
+    
+    // Remove notification after 3 seconds
+    setTimeout(() => {
+        notification.remove();
+    }, 3000);
 }
 
-function addEventListeners() {
-    const moodFilter = document.getElementById('moodFilter');
-    if (moodFilter) {
-        moodFilter.addEventListener('change', () => {
-            loadMoodEntries(); // Reload with filter
-        });
+function loadRecentEntries() {
+    console.log('Loading recent entries');
+    const recentEntriesList = document.getElementById('recent-mood-entries-list');
+    if (!recentEntriesList) return;
+
+    try {
+        const storedEntries = localStorage.getItem('moodEntries');
+        if (!storedEntries) {
+            recentEntriesList.innerHTML = '<p class="no-entries">No mood entries yet. Start tracking your mood!</p>';
+            return;
+        }
+
+        const entries = JSON.parse(storedEntries);
+        console.log('Loaded entries:', entries.length);
+
+        // Display only the 5 most recent entries
+        const recentEntries = entries.slice(0, 5);
+        
+        const entriesHTML = recentEntries.map(entry => {
+            const date = new Date(entry.timestamp);
+            const moodDots = Object.entries(entry.moods)
+                .filter(([_, value]) => value > 0)
+                .map(([mood, value]) => `
+                    <div class="entry-mood-dot" 
+                         style="background-color: ${getMoodColor(mood)};" 
+                         title="${mood.charAt(0).toUpperCase() + mood.slice(1)}: ${value}%">
+                    </div>
+                `).join('');
+
+            return `
+                <div class="mood-entry">
+                    <div class="entry-date">
+                        <div class="day">${date.getDate()}</div>
+                        <div class="month">${date.toLocaleString('en-US', { month: 'short' }).toUpperCase()}</div>
+                    </div>
+                    <div class="entry-content">
+                        <div class="entry-moods">
+                            ${moodDots}
+                        </div>
+                        ${entry.notes ? `<div class="entry-note">${entry.notes}</div>` : ''}
+                        <div class="entry-time">${date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}</div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+        recentEntriesList.innerHTML = entriesHTML;
+    } catch (error) {
+        console.error('Error loading recent entries:', error);
+        recentEntriesList.innerHTML = '<p class="error">Error loading mood entries. Please try refreshing the page.</p>';
     }
 }
 
-function showError(message) {
-    const errorMessage = document.getElementById('errorMessage');
-    if (!errorMessage) {
-        console.error('Error message element not found');
-        return;
-    }
-    
-        errorMessage.textContent = message;
-        errorMessage.style.display = 'block';
-        setTimeout(() => {
-            errorMessage.style.display = 'none';
-        }, 3000);
-}
-
-function showSuccess(message) {
-    const successMessage = document.getElementById('successMessage');
-    if (!successMessage) {
-        console.error('Success message element not found');
-        return;
-    }
-    
-        successMessage.textContent = message;
-        successMessage.style.display = 'block';
-        setTimeout(() => {
-            successMessage.style.display = 'none';
-        }, 3000);
+function getMoodColor(mood) {
+    const colors = {
+        happy: '#8DCA35',
+        sad: '#5B9BD5',
+        anxious: '#FFD056',
+        calm: '#9F7BD5',
+        energetic: '#F06292',
+        tired: '#78909C'
+    };
+    return colors[mood] || '#8DCA35';
 }
 

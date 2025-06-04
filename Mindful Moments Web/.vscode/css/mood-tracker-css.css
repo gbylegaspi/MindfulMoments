@@ -332,45 +332,34 @@
 }
 
 .mood-entries {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+    padding: 20px;
 }
 
 .mood-entry {
     display: flex;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    padding-bottom: 20px;
-}
-
-.mood-entry:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
+    gap: 20px;
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 15px;
 }
 
 .entry-date {
-    width: 60px;
-    height: 60px;
-    background-color: var(--color-purple);
-    color: white;
-    border-radius: var(--border-radius-md);
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    margin-right: 15px;
-    flex-shrink: 0;
+    min-width: 60px;
 }
 
 .entry-date .day {
-    font-size: 1.3rem;
+    font-size: 24px;
     font-weight: 600;
-    line-height: 1;
+    color: #333;
 }
 
 .entry-date .month {
-    font-size: 0.8rem;
-    margin-top: 3px;
+    font-size: 14px;
+    color: #666;
+    text-transform: uppercase;
 }
 
 .entry-content {
@@ -380,25 +369,62 @@
 .entry-moods {
     display: flex;
     gap: 8px;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
 }
 
 .entry-mood-dot {
-    width: 15px;
-    height: 15px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
+    cursor: pointer;
 }
 
 .entry-note {
-    font-size: 0.95rem;
-    color: var(--color-text);
+    color: #666;
     margin-bottom: 8px;
     line-height: 1.4;
 }
 
 .entry-time {
-    font-size: 0.8rem;
-    color: var(--color-text-light);
+    font-size: 12px;
+    color: #999;
+}
+
+.no-entries {
+    text-align: center;
+    color: #666;
+    padding: 40px 20px;
+    font-style: italic;
+}
+
+.error {
+    text-align: center;
+    color: #dc3545;
+    padding: 20px;
+}
+
+.notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px 25px;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 1000;
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
 }
 
 .recommendations-grid {

@@ -188,6 +188,33 @@
                     </div>
                 </section>
 
+                <!-- Custom Audio Upload Section -->
+                <section class="custom-audio-section">
+                    <div class="section-header">
+                        <h2>Custom Audio</h2>
+                        <p class="subheading">Upload your own meditation audio or background sounds</p>
+                    </div>
+                    <div class="custom-audio-container">
+                        <div class="upload-area" id="upload-area">
+                            <div class="upload-content">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="upload-icon">
+                                    <path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z"/>
+                                </svg>
+                                <h3>Upload Audio</h3>
+                                <p>Drag and drop your audio file here or click to browse</p>
+                                <input type="file" id="audio-upload" accept="audio/*" style="display: none;">
+                                <button class="btn btn-primary" id="browse-btn">Browse Files</button>
+                            </div>
+                        </div>
+                        <div class="uploaded-audio-list" id="uploaded-audio-list">
+                            <h3>Your Uploads</h3>
+                            <div class="audio-list" id="audio-list">
+                                <!-- Uploaded audio items will be added here -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
                 <!-- Recommended Sessions Section -->
                 <section class="recommended-sessions-section">
                     <div class="section-header">

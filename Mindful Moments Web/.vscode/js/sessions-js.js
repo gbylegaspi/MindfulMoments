@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeTimer();
     initializeEventListeners();
     loadRecentSessions();
+    initAudioHandling();
 });
 
 function initializeTimer() {
@@ -66,14 +67,27 @@ function initializeEventListeners() {
 function toggleTimer() {
     if (isTimerRunning) {
         pauseTimer();
+        // Pause background audio when timer is paused
+        if (backgroundAudio) {
+            backgroundAudio.pause();
+        }
     } else {
         startTimer();
+        // Resume background audio when timer is started
+        if (backgroundAudio) {
+            backgroundAudio.play();
+        }
     }
 }
 
 function startTimer() {
     isTimerRunning = true;
     timerStartBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+    
+    // Resume background audio if it exists
+    if (backgroundAudio) {
+        backgroundAudio.play();
+    }
     
     timerInterval = setInterval(() => {
         timeLeft--;
@@ -89,6 +103,10 @@ function pauseTimer() {
     isTimerRunning = false;
     timerStartBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
     clearInterval(timerInterval);
+    // Pause background audio
+    if (backgroundAudio) {
+        backgroundAudio.pause();
+    }
 }
 
 function adjustTimer(seconds) {
@@ -275,4 +293,184 @@ function loadRecentSessions() {
             });
         });
     }
+}
+
+function initAudioHandling() {
+    const uploadArea = document.getElementById('upload-area');
+    const audioUpload = document.getElementById('audio-upload');
+    const browseBtn = document.getElementById('browse-btn');
+    const audioList = document.getElementById('audio-list');
+    const backgroundSoundSelect = document.getElementById('background-sound');
+    const playerBackgroundSelect = document.getElementById('player-background');
+    
+    // Store uploaded audio files
+    let uploadedAudioFiles = {};
+    
+    // Handle file upload
+    function handleFileUpload(file) {
+        if (!file.type.startsWith('audio/')) {
+            showNotification('Please upload an audio file');
+            return;
+        }
+        
+        const audioUrl = URL.createObjectURL(file);
+        const audioId = 'custom-' + Date.now();
+        
+        // Store the audio file
+        uploadedAudioFiles[audioId] = {
+            name: file.name,
+            url: audioUrl,
+            type: file.type
+        };
+        
+        // Add to audio list
+        const audioItem = document.createElement('div');
+        audioItem.className = 'audio-item';
+        audioItem.innerHTML = `
+            <div class="audio-info">
+                <span class="audio-name">${file.name}</span>
+                <span class="audio-duration">${formatDuration(0)}</span>
+            </div>
+            <div class="audio-controls">
+                <button class="btn-icon play-audio" data-id="${audioId}">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z"/>
+                    </svg>
+                </button>
+                <button class="btn-icon delete-audio" data-id="${audioId}">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+                    </svg>
+                </button>
+            </div>
+        `;
+        
+        audioList.appendChild(audioItem);
+        
+        // Update background sound options
+        updateBackgroundSoundOptions();
+        
+        // Load audio duration
+        const audio = new Audio(audioUrl);
+        audio.addEventListener('loadedmetadata', () => {
+            const durationSpan = audioItem.querySelector('.audio-duration');
+            durationSpan.textContent = formatDuration(audio.duration);
+        });
+    }
+    
+    // Update background sound options
+    function updateBackgroundSoundOptions() {
+        const customOptions = Object.entries(uploadedAudioFiles).map(([id, file]) => 
+            `<option value="${id}">${file.name}</option>`
+        );
+        
+        // Add custom options to both selectors
+        const customOptionsHtml = customOptions.join('');
+        backgroundSoundSelect.innerHTML = `
+            <option value="none">None</option>
+            <option value="nature">Nature Sounds</option>
+            <option value="ocean">Ocean Waves</option>
+            <option value="rain">Rain</option>
+            <option value="white-noise">White Noise</option>
+            ${customOptionsHtml}
+        `;
+        
+        playerBackgroundSelect.innerHTML = backgroundSoundSelect.innerHTML;
+    }
+    
+    // Format duration in mm:ss
+    function formatDuration(seconds) {
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins}:${secs.toString().padStart(2, '0')}`;
+    }
+    
+    // Handle background sound selection
+    function handleBackgroundSoundSelection(soundId) {
+        if (soundId === 'none') {
+            stopBackgroundSound();
+            return;
+        }
+        
+        let audioUrl;
+        if (soundId.startsWith('custom-')) {
+            audioUrl = uploadedAudioFiles[soundId].url;
+        } else {
+            // Use default sounds
+            audioUrl = `sounds/${soundId}.mp3`;
+        }
+        
+        playBackgroundSound(audioUrl);
+    }
+    
+    // Play background sound
+    function playBackgroundSound(url) {
+        stopBackgroundSound();
+        backgroundAudio = new Audio(url);
+        backgroundAudio.loop = true;
+        backgroundAudio.volume = 0.3;
+        backgroundAudio.play();
+    }
+    
+    // Stop background sound
+    function stopBackgroundSound() {
+        if (backgroundAudio) {
+            backgroundAudio.pause();
+            backgroundAudio = null;
+        }
+    }
+    
+    // Event Listeners
+    uploadArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        uploadArea.classList.add('dragover');
+    });
+    
+    uploadArea.addEventListener('dragleave', () => {
+        uploadArea.classList.remove('dragover');
+    });
+    
+    uploadArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        uploadArea.classList.remove('dragover');
+        const file = e.dataTransfer.files[0];
+        if (file) handleFileUpload(file);
+    });
+    
+    browseBtn.addEventListener('click', () => {
+        audioUpload.click();
+    });
+    
+    audioUpload.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) handleFileUpload(file);
+    });
+    
+    // Handle audio item controls
+    audioList.addEventListener('click', (e) => {
+        const playBtn = e.target.closest('.play-audio');
+        const deleteBtn = e.target.closest('.delete-audio');
+        
+        if (playBtn) {
+            const audioId = playBtn.dataset.id;
+            const audioUrl = uploadedAudioFiles[audioId].url;
+            playBackgroundSound(audioUrl);
+        }
+        
+        if (deleteBtn) {
+            const audioId = deleteBtn.dataset.id;
+            delete uploadedAudioFiles[audioId];
+            deleteBtn.closest('.audio-item').remove();
+            updateBackgroundSoundOptions();
+        }
+    });
+    
+    // Handle background sound selection
+    backgroundSoundSelect.addEventListener('change', (e) => {
+        handleBackgroundSoundSelection(e.target.value);
+    });
+    
+    playerBackgroundSelect.addEventListener('change', (e) => {
+        handleBackgroundSoundSelection(e.target.value);
+    });
 } 
